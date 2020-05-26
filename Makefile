@@ -8,7 +8,7 @@ GIT_TAG=$(shell (git diff-index --quiet HEAD && git describe --exact-match --tag
 EDITION:=$(or $(EDITION),$(if $(GIT_TAG),$(GIT_TAG),Development Draft))
 
 BUILD=build
-TARGETS=$(addprefix $(BUILD)/,license.html license.docx license.pdf)
+TARGETS=$(addprefix $(BUILD)/,license.html license.docx license.pdf license.md)
 
 all: $(TARGETS)
 
@@ -33,6 +33,17 @@ $(BUILD)/%.docx: $(BUILD)/%.form.json $(BUILD)/%.title styles.json | $(BUILD) $(
 		--edition "$(EDITION)" \
 		--styles styles.json \
 		$< > $@
+
+$(BUILD)/%.md: $(BUILD)/%.form.json $(BUILD)/%.title styles.json | $(BUILD) $(CFCM)
+	$(CFCM) stringify \
+		--title "$(shell cat $(BUILD)/$*.title) $(EDITION)" \
+		--ordered \
+		< $< | \
+		sed 's/^!!! \(.\+\)$$/***\1***/' | \
+		sed 's!\\/!/!g' | \
+		sed 's!\(https://.\+\).$$!<\1>.!g' | \
+		fmt -u -w64 \
+		> $@
 
 $(BUILD)/%.title: %.md | $(BUILD) $(CFCM) $(JSON)
 	$(CFCM) parse < $< | $(JSON) frontMatter.title > $@
