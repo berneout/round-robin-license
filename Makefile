@@ -43,7 +43,7 @@ $(BUILD)/%.pdf: $(BUILD)/%.docx
 $(BUILD):
 	mkdir -p $(BUILD)
 
-$(CFCM) $(CFHTML) $(CFDOCX):
+$(NPMBIN) $(CFCM) $(CFHTML) $(CFDOCX) $(JSON):
 	npm ci
 
 .PHONY: clean
