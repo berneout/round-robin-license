@@ -9,32 +9,44 @@ TARGETS=$(addprefix $(BUILD)/,license.html license.docx license.pdf license.md)
 
 all: $(TARGETS)
 
-$(BUILD)/%.form.json: %.md | $(BUILD) $(CFCM)
-	$(CFCM) parse --only form $< > $@
+$(BUILD)/%.json: %.md | $(BUILD) $(CFCM)
+	$(CFCM) parse $< > $@
 
-$(BUILD)/%.html: $(BUILD)/%.form.json $(BUILD)/%.title $(BUILD)/%.edition | $(BUILD) $(CFHTML)
+$(BUILD)/%.form: $(BUILD)/%.json | $(JSON)
+	$(JSON) form < $< > $@
+
+$(BUILD)/%.directions: $(BUILD)/%.json | $(BUILD) $(CFCM)
+	$(JSON) directions < $< > $@
+
+$(BUILD)/%.html: $(BUILD)/%.form $(BUILD)/%.directions $(BUILD)/%.values $(BUILD)/%.title $(BUILD)/%.edition | $(BUILD) $(CFHTML)
 	$(CFHTML) \
 		--title "$(shell cat $(BUILD)/$*.title)" \
 		--edition "$(shell cat $(BUILD)/$*.edition)" \
+		--directions $(BUILD)/$*.directions \
+		--values $(BUILD)/$*.values \
 		--ids \
 		--lists \
 		--html5 \
 		< $< > $@
 
-$(BUILD)/%.docx: $(BUILD)/%.form.json $(BUILD)/%.title $(BUILD)/%.edition styles.json | $(BUILD) $(CFDOCX)
+$(BUILD)/%.docx: $(BUILD)/%.form $(BUILD)/%.directions $(BUILD)/%.values $(BUILD)/%.title $(BUILD)/%.edition styles.json | $(BUILD) $(CFDOCX)
 	$(CFDOCX) \
 		--number outline \
 		--left-align-title \
 		--indent-margins \
 		--title "$(shell cat $(BUILD)/$*.title)" \
 		--edition "$(shell cat $(BUILD)/$*.edition)" \
+		--directions $(BUILD)/$*.directions \
+		--values $(BUILD)/$*.values \
 		--styles styles.json \
 		$< > $@
 
-$(BUILD)/%.md: $(BUILD)/%.form.json $(BUILD)/%.title $(BUILD)/%.edition styles.json | $(BUILD) $(CFCM)
+$(BUILD)/%.md: $(BUILD)/%.form $(BUILD)/%.title $(BUILD)/%.directions $(BUILD)/%.values $(BUILD)/%.edition styles.json | $(BUILD) $(CFCM)
 	$(CFCM) stringify \
 		--title "$(shell cat $(BUILD)/$*.title)" \
 		--edition "$(shell cat $(BUILD)/$*.edition)" \
+		--directions $(BUILD)/$*.directions \
+		--values $(BUILD)/$*.values \
 		--ordered \
 		< $< | \
 		sed 's/^!!! \(.\+\)$$/***\1***/' | \
@@ -43,11 +55,14 @@ $(BUILD)/%.md: $(BUILD)/%.form.json $(BUILD)/%.title $(BUILD)/%.edition styles.j
 		fmt -u -w64 \
 		> $@
 
-$(BUILD)/%.title: %.md | $(BUILD) $(CFCM) $(JSON)
-	$(CFCM) parse < $< | $(JSON) frontMatter.title > $@
+$(BUILD)/%.title: $(BUILD)/%.json | $(JSON)
+	$(JSON) frontMatter.title < $< > $@
 
-$(BUILD)/%.edition: %.md | $(BUILD) $(CFCM) $(JSON)
-	$(CFCM) parse < $< | $(JSON) frontMatter.version > $@
+$(BUILD)/%.edition: $(BUILD)/%.json | $(JSON)
+	$(JSON) frontMatter.version < $< > $@
+
+$(BUILD)/%.values: $(BUILD)/%.json
+	node -e 'var value = require("./$(BUILD)/$*.json").frontMatter.version; console.log(JSON.stringify({ version: value === "Development Draft" ? "$$version" : value }))' > $@
 
 $(BUILD)/%.pdf: $(BUILD)/%.docx
 	unoconv $<
