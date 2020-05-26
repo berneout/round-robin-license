@@ -4,9 +4,6 @@ CFHTML=$(NPMBIN)/commonform-html
 CFDOCX=$(NPMBIN)/commonform-docx
 JSON=$(NPMBIN)/json
 
-GIT_TAG=$(shell (git diff-index --quiet HEAD && git describe --exact-match --tags 2>/dev/null | sed 's/v//'))
-EDITION:=$(or $(EDITION),$(if $(GIT_TAG),$(GIT_TAG),Development Draft))
-
 BUILD=build
 TARGETS=$(addprefix $(BUILD)/,license.html license.docx license.pdf license.md)
 
@@ -15,28 +12,28 @@ all: $(TARGETS)
 $(BUILD)/%.form.json: %.md | $(BUILD) $(CFCM)
 	$(CFCM) parse --only form $< > $@
 
-$(BUILD)/%.html: $(BUILD)/%.form.json $(BUILD)/%.title | $(BUILD) $(CFHTML)
+$(BUILD)/%.html: $(BUILD)/%.form.json $(BUILD)/%.title $(BUILD)/%.edition | $(BUILD) $(CFHTML)
 	$(CFHTML) \
 		--title "$(shell cat $(BUILD)/$*.title)" \
-		--edition "$(EDITION)" \
+		--edition "$(shell cat $(BUILD)/$*.edition)" \
 		--ids \
 		--lists \
 		--html5 \
 		< $< > $@
 
-$(BUILD)/%.docx: $(BUILD)/%.form.json $(BUILD)/%.title styles.json | $(BUILD) $(CFDOCX)
+$(BUILD)/%.docx: $(BUILD)/%.form.json $(BUILD)/%.title $(BUILD)/%.edition styles.json | $(BUILD) $(CFDOCX)
 	$(CFDOCX) \
 		--number outline \
 		--left-align-title \
 		--indent-margins \
 		--title "$(shell cat $(BUILD)/$*.title)" \
-		--edition "$(EDITION)" \
+		--edition "$(shell cat $(BUILD)/$*.edition)" \
 		--styles styles.json \
 		$< > $@
 
-$(BUILD)/%.md: $(BUILD)/%.form.json $(BUILD)/%.title styles.json | $(BUILD) $(CFCM)
+$(BUILD)/%.md: $(BUILD)/%.form.json $(BUILD)/%.title $(BUILD)/%.edition styles.json | $(BUILD) $(CFCM)
 	$(CFCM) stringify \
-		--title "$(shell cat $(BUILD)/$*.title) $(EDITION)" \
+		--title "$(shell cat $(BUILD)/$*.title) $(shell cat $(BUILD)/$*.edition)" \
 		--ordered \
 		< $< | \
 		sed 's/^!!! \(.\+\)$$/***\1***/' | \
@@ -47,6 +44,9 @@ $(BUILD)/%.md: $(BUILD)/%.form.json $(BUILD)/%.title styles.json | $(BUILD) $(CF
 
 $(BUILD)/%.title: %.md | $(BUILD) $(CFCM) $(JSON)
 	$(CFCM) parse < $< | $(JSON) frontMatter.title > $@
+
+$(BUILD)/%.edition: %.md | $(BUILD) $(CFCM) $(JSON)
+	$(CFCM) parse < $< | $(JSON) frontMatter.version > $@
 
 $(BUILD)/%.pdf: $(BUILD)/%.docx
 	unoconv $<
