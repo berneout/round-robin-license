@@ -33,7 +33,8 @@ $(BUILD)/%.docx: $(BUILD)/%.form.json $(BUILD)/%.title $(BUILD)/%.edition styles
 
 $(BUILD)/%.md: $(BUILD)/%.form.json $(BUILD)/%.title $(BUILD)/%.edition styles.json | $(BUILD) $(CFCM)
 	$(CFCM) stringify \
-		--title "$(shell cat $(BUILD)/$*.title) $(shell cat $(BUILD)/$*.edition)" \
+		--title "$(shell cat $(BUILD)/$*.title)" \
+		--edition "$(shell cat $(BUILD)/$*.edition)" \
 		--ordered \
 		< $< | \
 		sed 's/^!!! \(.\+\)$$/***\1***/' | \
