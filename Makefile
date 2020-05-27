@@ -62,7 +62,7 @@ $(BUILD)/%.edition: $(BUILD)/%.json | $(JSON)
 	$(JSON) frontMatter.version < $< > $@
 
 $(BUILD)/%.values: $(BUILD)/%.json
-	node -e 'var value = require("./$(BUILD)/$*.json").frontMatter.version; console.log(JSON.stringify({ version: value === "Development Draft" ? "$$version" : value }))' > $@
+	node -e 'var value = require("./$(BUILD)/$*.json").frontMatter.version; console.log(JSON.stringify({ version: value === "Development Draft" ? "{version}" : value }))' > $@
 
 $(BUILD)/%.pdf: $(BUILD)/%.docx
 	unoconv $<
