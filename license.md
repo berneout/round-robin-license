@@ -37,7 +37,7 @@ You don't have to contribute any software that only invokes this software's func
 
 To contribute software:
 
-1.  Publish all source code for the software in the preferred form for making changes through a freely accessible distribution system widely used for similar source code so the contributor and others can find and copy it.
+1.  Publish all source code for the software in the preferred form for making changes through a freely accessible distribution system widely used for similar source code so the contributor and others can find and copy it.  In 2020, that might be GitHub.  In 2005, it might have been SourceForge.  In the future, it might be some other system.
 
 2.  Make sure every part of the source code is available under this license, the Blue Oak Model License 1.0.0, the BSD-2-Clause Plus Patent License, or terms with substantially the same legal effect as [Copyright](#copyright), [Patent](#patent), and [Reliability](#reliability), and optionally a rule like [Notices](#notices), a disclaimer like [No Liability](#no-liability), or both, but no other terms.
 
