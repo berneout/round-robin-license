@@ -51,7 +51,7 @@ $(BUILD)/%.md: $(BUILD)/%.form $(BUILD)/%.title $(BUILD)/%.directions $(BUILD)/%
 		< $< | \
 		sed 's/^!!! \(.\+\)$$/***\1***/' | \
 		sed 's!\\/!/!g' | \
-		sed 's!\(https://.\+\).$$!<\1>.!g' | \
+		sed -E 's!(https://[^ ]+)!<\1>!g' | \
 		fmt -u -w64 \
 		> $@
 
