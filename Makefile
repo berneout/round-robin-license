@@ -51,7 +51,7 @@ $(BUILD)/%.md: $(BUILD)/%.form $(BUILD)/%.title $(BUILD)/%.directions $(BUILD)/%
 		< $< | \
 		sed 's/^!!! \(.\+\)$$/***\1***/' | \
 		sed 's!\\/!/!g' | \
-		sed 's!\(https://.\+\).$$!<\1>.!g' | \
+		sed -E 's!(https://[^ ]+)!<\1>!g' | \
 		fmt -u -w64 \
 		> $@
 
@@ -62,7 +62,7 @@ $(BUILD)/%.edition: $(BUILD)/%.json | $(JSON)
 	$(JSON) frontMatter.version < $< > $@
 
 $(BUILD)/%.values: $(BUILD)/%.json
-	node -e 'var value = require("./$(BUILD)/$*.json").frontMatter.version; console.log(JSON.stringify({ version: value === "Development Draft" ? "$$version" : value }))' > $@
+	node -e 'var value = require("./$(BUILD)/$*.json").frontMatter.version; console.log(JSON.stringify({ version: value === "Development Draft" ? "{version}" : value }))' > $@
 
 $(BUILD)/%.pdf: $(BUILD)/%.docx
 	unoconv $<
