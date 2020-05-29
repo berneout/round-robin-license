@@ -13,7 +13,7 @@ In order to receive this license, you have to agree to its rules.  Those rules a
 
 # Notices
 
-Give everyone who gets a copy of any part of this software from you the text of this license or a link to https://roundrobinlicense.com/`version` and tell them in writing that the license applies to the software.
+Give the text of this license or a link to https://roundrobinlicense.com/`version` to everyone who gets a copy of any part of this software from you, along with a note making clear that this license applies to the software.
 
 # Copyleft
 
