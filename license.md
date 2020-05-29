@@ -5,7 +5,7 @@ version: Development Draft
 
 # Purpose
 
-This license allows you to use and share this software for free.  You can share and license applications how you like, but you have to share changes, additions, and other software that builds on this software.
+This license allows you to use and share this software for free.  You can share and license applications however you like, but you have to share changes, additions, and other software that builds on this software.
 
 # Agreement
 
