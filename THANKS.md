@@ -9,5 +9,6 @@ This license would be far worse, if not for great feedback from these people:
 - Simer Plaha / [@simerplaha](https://github.com/simerplaha)
 - Jeremiah Senkpiel / [@fishrock123](https://github.com/fishrock123)
 - Bryan Burke / [@btburke](https://github.com/byburke)
+- Leigh Brenecki [@excitedleigh](https://github.com/excitedleigh)
 
 These folks don't necessarily endorse this license.
