@@ -51,7 +51,7 @@ You're excused for unknowingly breaking [Copyleft](#copyleft) if you contribute 
 
 # Copyright
 
-Each contributor licenses you to do everything with this software that would otherwise infringe that contributor's copyright in it.
+Each contributor licenses you to do everything with this software that would otherwise infringe their copyright in it.
 
 # Patent
 
