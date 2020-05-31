@@ -27,7 +27,7 @@ You don't have to contribute any change, addition, or other software that meets 
 
 2.  You don't share it outside the team developing it, other than for non-production user testing.
 
-3.  You don't use it for anyone outside the team developing it.
+3.  You don't use it on behalf of anyone outside the team developing it.
 
 # Applications
 
