@@ -20,8 +20,7 @@ $(BUILD)/%.directions: $(BUILD)/%.json | $(BUILD) $(CFCM)
 
 $(BUILD)/%.html: $(BUILD)/%.form $(BUILD)/%.directions $(BUILD)/%.values $(BUILD)/%.title $(BUILD)/%.edition | $(BUILD) $(CFHTML)
 	$(CFHTML) \
-		--title "$(shell cat $(BUILD)/$*.title)" \
-		--edition "$(shell cat $(BUILD)/$*.edition)" \
+		--title "$(shell cat $(BUILD)/$*.title) $(shell cat $(BUILD)/$*.edition)" \
 		--directions $(BUILD)/$*.directions \
 		--values $(BUILD)/$*.values \
 		--ids \
@@ -34,8 +33,7 @@ $(BUILD)/%.docx: $(BUILD)/%.form $(BUILD)/%.directions $(BUILD)/%.values $(BUILD
 		--number outline \
 		--left-align-title \
 		--indent-margins \
-		--title "$(shell cat $(BUILD)/$*.title)" \
-		--edition "$(shell cat $(BUILD)/$*.edition)" \
+		--title "$(shell cat $(BUILD)/$*.title) $(shell cat $(BUILD)/$*.edition)" \
 		--directions $(BUILD)/$*.directions \
 		--values $(BUILD)/$*.values \
 		--styles styles.json \
@@ -43,8 +41,7 @@ $(BUILD)/%.docx: $(BUILD)/%.form $(BUILD)/%.directions $(BUILD)/%.values $(BUILD
 
 $(BUILD)/%.md: $(BUILD)/%.form $(BUILD)/%.title $(BUILD)/%.directions $(BUILD)/%.values $(BUILD)/%.edition styles.json | $(BUILD) $(CFCM)
 	$(CFCM) stringify \
-		--title "$(shell cat $(BUILD)/$*.title)" \
-		--edition "$(shell cat $(BUILD)/$*.edition)" \
+		--title "$(shell cat $(BUILD)/$*.title) $(shell cat $(BUILD)/$*.edition)" \
 		--directions $(BUILD)/$*.directions \
 		--values $(BUILD)/$*.values \
 		--ordered \
