@@ -26,7 +26,10 @@ $(BUILD)/%.html: $(BUILD)/%.form $(BUILD)/%.directions $(BUILD)/%.values $(BUILD
 		--ids \
 		--lists \
 		--html5 \
-		< $< > $@
+		< $< | \
+		sed -E 's!<span class="blank">([^<]+)</span>!\1!g' | \
+		sed -E 's!(https://[^ ]+)!<a href="\1">\1</a>!g' \
+		> $@
 
 $(BUILD)/%.docx: $(BUILD)/%.form $(BUILD)/%.directions $(BUILD)/%.values $(BUILD)/%.title $(BUILD)/%.edition styles.json | $(BUILD) $(CFDOCX)
 	$(CFDOCX) \
