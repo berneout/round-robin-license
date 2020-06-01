@@ -43,7 +43,7 @@ To contribute software:
 
 3.  Take these steps within thirty days.
 
-4.  Note that this license doesn't let you change the license for this software.  You must follow [Notices](#notices).
+4.  Note that this license doesn't let you change the license for this software.  Follow [Notices](#notices).
 
 # Excuse
 
