@@ -4,6 +4,6 @@
     "commonform-commonmark": "^6.0.0",
     "commonform-docx": "^5.5.2",
     "commonform-html": "^3.6.1",
-    "json": "^10.0.0"
+    "json": "^11.0.0"
   }
 }
