@@ -26,6 +26,7 @@ $(BUILD)/%.html: $(BUILD)/%.form $(BUILD)/%.directions $(BUILD)/%.values $(BUILD
 		--ids \
 		--lists \
 		--html5 \
+		--smartify \
 		< $< | \
 		sed -E 's!<span class="blank">([^<]+)</span>!\1!g' | \
 		sed -E 's!(https://[^ ]+)!<a href="\1">\1</a>!g' \
@@ -40,6 +41,7 @@ $(BUILD)/%.docx: $(BUILD)/%.form $(BUILD)/%.directions $(BUILD)/%.values $(BUILD
 		--directions $(BUILD)/$*.directions \
 		--values $(BUILD)/$*.values \
 		--styles styles.json \
+		--smartify \
 		$< > $@
 
 $(BUILD)/%.md: $(BUILD)/%.form $(BUILD)/%.title $(BUILD)/%.directions $(BUILD)/%.values $(BUILD)/%.edition styles.json | $(BUILD) $(CFCM)
