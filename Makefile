@@ -65,7 +65,7 @@ $(BUILD)/%.values: $(BUILD)/%.json
 	node -e 'var value = require("./$(BUILD)/$*.json").frontMatter.version; console.log(JSON.stringify({ version: value === "Development Draft" ? "{version}" : value }))' > $@
 
 $(BUILD)/%.pdf: $(BUILD)/%.docx
-	unoconv $<
+	soffice --headless --convert-to pdf --outdir $(BUILD) $<
 
 $(BUILD):
 	mkdir -p $(BUILD)
