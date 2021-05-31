@@ -1,6 +1,6 @@
 ---
 title: Round Robin Software License
-version: Development Draft
+version: 2.0.0
 ---
 
 # Purpose
