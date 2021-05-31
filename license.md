@@ -39,7 +39,7 @@ To contribute software:
 
 1.  Publish all source code for the software in the preferred form for making changes through a freely accessible distribution system widely used for similar source code, so other contributors and users can find and copy it.
 
-2.  Make sure every part of the source code is available under this license, the Blue Oak Model License 1.0.0, or terms with substantially the same legal effect.  You can include source code licensed by others under the MIT License, two-clause BSD License, BSD-2-Clause Plus Patent License, Apache License Version 2.0, or similar terms that give less certainty about patents, so long as the developers of the source code don't mention that patents do or might apply to the software in code comments, documentation, or legal notices, and you aren't aware of any such patents yourself.
+2.  Make sure every part of the source code is available under this license, the Blue Oak Model License 1.0.0, or terms with substantially the same legal effect.  You can include source code licensed by others under the MIT License, two-clause BSD License, BSD-2-Clause Plus Patent License, Apache License Version 2.0, or similar terms that give less certainty about patents, so long as the developers of the source code don't mention that patents apply or might apply to the software in code comments, documentation, or legal notices, and you aren't aware of any such patents yourself.
 
 3.  Take these steps within thirty days.
 
